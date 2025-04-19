@@ -1,6 +1,6 @@
 # Student Result Management System
 
-video demo - https://youtu.be/tm0XTuFnzx8
+video demo - https://youtube.crsissrwmaxwell
 
 ### How do I get set up? ###
 
@@ -8,8 +8,9 @@ video demo - https://youtu.be/tm0XTuFnzx8
 * Add the database file 
 
 ### contact ###
-projectworldsofficial@gmail.com
+xampp8152@hotmail.com.com
 
-more projects website - https://projectworlds.in
+more projects website - https://tesfayekifle.netlify.app
+Phone: +251916478481
 
 
