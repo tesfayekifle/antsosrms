@@ -1,3 +1,40 @@
+<?php
+session_start(); // Start session at the top of the file
+include("init.php"); // Include the database connection
+
+// Check if login form is submitted
+if (isset($_POST["userid"], $_POST["password"])) {
+    $username = $_POST["userid"];
+    $password = $_POST["password"];
+    
+    // Query to check if the username and password are correct
+    $sql = "SELECT userid, password FROM admin_login WHERE userid = '$username'";
+    $result = mysqli_query($conn, $sql);
+    $count = mysqli_num_rows($result);
+    
+    if ($count == 1) {
+        // Fetch the password hash from the database
+        $row = mysqli_fetch_array($result);
+        $hashed_password = $row['password'];
+
+        // Check if the entered password matches the hashed password
+        if (password_verify($password, $hashed_password)) {
+            $_SESSION['login_user'] = $username; // Save username to session
+            header("Location: dashboard.php"); // Redirect to dashboard
+            exit(); // Exit after redirect to avoid further processing
+        } else {
+            echo '<script language="javascript">';
+            echo 'alert("Invalid Username or Password")';
+            echo '</script>';
+        }
+    } else {
+        echo '<script language="javascript">';
+        echo 'alert("Invalid Username or Password")';
+        echo '</script>';
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,8 +55,8 @@
             <form action="" method="post" name="login">
                 <fieldset>
                     <legend class="heading">Admin Login</legend>
-                    <input type="text" name="userid" placeholder="Email" autocomplete="off">
-                    <input type="password" name="password" placeholder="Password" autocomplete="off">
+                    <input type="text" name="userid" placeholder="Email" autocomplete="off" required>
+                    <input type="password" name="password" placeholder="Password" autocomplete="off" required>
                     <input type="submit" value="Login">
                 </fieldset>
             </form>    
@@ -30,16 +67,15 @@
                     <legend class="heading">For Students</legend>
 
                     <?php
-                        include('init.php');
-
-                        $class_result=mysqli_query($conn,"SELECT `name` FROM `class`");
-                            echo '<select name="class">';
-                            echo '<option selected disabled>Select Class</option>';
-                        while($row = mysqli_fetch_array($class_result)){
-                            $display=$row['name'];
+                        // Fetch available classes from the database
+                        $class_result = mysqli_query($conn, "SELECT `name` FROM `class`");
+                        echo '<select name="class">';
+                        echo '<option selected disabled>Select Class</option>';
+                        while ($row = mysqli_fetch_array($class_result)) {
+                            $display = $row['name'];
                             echo '<option value="'.$display.'">'.$display.'</option>';
                         }
-                        echo'</select>'
+                        echo '</select>';
                     ?>
 
                     <input type="text" name="rn" placeholder="Roll No">
@@ -51,30 +87,3 @@
 
 </body>
 </html>
-
-<?php
-    include("init.php");
-    session_start();
-
-    if (isset($_POST["userid"],$_POST["password"]))
-    {
-        $username=$_POST["userid"];
-        $password=$_POST["password"];
-        $sql = "SELECT userid FROM admin_login WHERE userid='$username' and password = '$password'";
-        $result=mysqli_query($conn,$sql);
-
-        // $row=mysqli_fetch_array($result);
-        $count=mysqli_num_rows($result);
-        
-        if($count==1) {
-            $_SESSION['login_user']=$username;
-            header("Location: dashboard.php");
-        }else {
-            echo '<script language="javascript">';
-            echo 'alert("Invalid Username or Password")';
-            echo '</script>';
-        }
-        
-    }
-?>
-
