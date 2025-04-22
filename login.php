@@ -8,7 +8,7 @@ if (isset($_POST["userid"], $_POST["password"])) {
     $password = $_POST["password"];
     
     // Query to check if the username and password are correct
-    $sql = "SELECT userid, password FROM admin_login WHERE userid = '$username'";
+    $sql = "SELECT username, password FROM admin_users WHERE username = '$username'";
     $result = mysqli_query($conn, $sql);
     $count = mysqli_num_rows($result);
     
