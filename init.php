@@ -1,17 +1,15 @@
 <?php
-// Database connection variables
-$host = "sql12.freesqldatabase.com";  // Update with your remote host
-$dbname = "sql12774262";               // Database name
-$username = "sql12774262";             // Database user
-$password = "B8YYRL6WMZ";              // Database password
-$port = 3306;                          // Port number (can be omitted if it's the default)
+$host = 'dpg-d02g7abuibrs73arpbbg-a.oregon-postgres.render.com';
+$dbname = 'antsokiya_postgres_db';
+$username = 'antsokiya_postgres_db_user';
+$password = 'uvYoGgq6gfdTZWpBEl7aund6wJfYvxAv';
+$port = 5432;
 
-// Create the connection
-$conn = mysqli_connect($host, $username, $password, $dbname, $port);
-
-// Check connection
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
+try {
+    $pdo = new PDO("pgsql:host=$host;port=$port;dbname=$dbname", $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // echo "Connected to PostgreSQL successfully.";
+} catch (PDOException $e) {
+    die("Connection failed: " . $e->getMessage());
 }
-echo "Connected successfully";
 ?>
